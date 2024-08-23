@@ -39,25 +39,25 @@ const getCompanyById = async (req,res)=>{
 
 const deleteCompany = async (req, res) => {
     try {
-        // const jobsId = await Companies.findById({_id :req.params.id},{_id:0,jobsPosted:1}).populate();
-        const deletedCompany = await Companies.findByIdAndDelete(req.params.id);
-        if (deletedCompany) {
+    
+        const companyToDelete = await Companies.findById(req.params.id).populate('jobsPosted');
 
-            // const deleteJob = await Jobs.deleteMany({companyId : req.params.id})
-            console.log(jobsId);
-            // for (const jobid in jobsId.jobsPosted) {
-            //     const deletedjob = await Jobs.deleteOne(jobid);
-            //     // const deletedapplication = await Applications.deleteMany({jobId : jobid});
-            // }
-            
-            res.status(200).send("Company is deleted");
-        } else {
-            res.status(404).send("NO Data Found");
+        if (!companyToDelete) {
+            return res.status(404).send("No Data found");
         }
+
+        for (const job of companyToDelete.jobsPosted) {
+            await Jobs.findByIdAndDelete(job._id);
+            await Applications.deleteMany({ jobId: job._id }); 
+        }
+
+        await Companies.findByIdAndDelete(req.params.id);
+
     } catch (err) {
         res.status(500).send(err.message);
     }
 };
+
 
 const getAllCompanies = async (req,res)=>{
     try
