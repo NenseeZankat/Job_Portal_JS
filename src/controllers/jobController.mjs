@@ -65,4 +65,22 @@ const getAllJobs = async (req,res)=>{
     
 };
 
-export { createJob, getJobById , deleteJob ,getAllJobs};
+const updateJob = async (req, res) => {
+    try {
+        const updatedJob = await Jobs.findByIdAndUpdate(
+            req.params.id,      
+            { $set: req.body },  
+            { new: true, runValidators: true }  
+        );
+
+        if (updatedJob) {
+            res.status(200).send(updatedJob);
+        } else {
+            res.status(404).send("No Data found");
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+export { createJob, getJobById , deleteJob ,getAllJobs , updateJob};

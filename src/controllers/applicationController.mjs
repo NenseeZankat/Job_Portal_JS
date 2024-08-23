@@ -61,4 +61,22 @@ const getAllApplications = async (req,res)=>{
     
 };
 
-export { createApplication, getApplicationById , deleteApplication ,getAllApplications};
+const updateApplication = async (req, res) => {
+    try {
+        const updatedApplication = await Applications.findByIdAndUpdate(
+            req.params.id,      
+            { $set: req.body },  
+            { new: true, runValidators: true }  
+        );
+
+        if (updatedApplication) {
+            res.status(200).send(updatedApplication);
+        } else {
+            res.status(404).send("No Data found");
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+export { createApplication, getApplicationById , deleteApplication ,getAllApplications , updateApplication};

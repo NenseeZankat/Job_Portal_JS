@@ -60,8 +60,25 @@ const getAllResumes = async (req,res)=>{
     {
         res.status(500).send(err.message);
     }
-    
-    
-}
-export { createResume, getResumeById , deleteResume , getAllResumes};
+};
+
+const updateResume = async (req, res) => {
+    try {
+        const updatedResume = await Resume.findByIdAndUpdate(
+            req.params.id,      
+            { $set: req.body },  
+            { new: true, runValidators: true }  
+        );
+
+        if (updatedResume) {
+            res.status(200).send(updatedResume);
+        } else {
+            res.status(404).send("No Data found");
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+export { createResume, getResumeById , deleteResume , getAllResumes , updateResume};
  

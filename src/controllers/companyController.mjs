@@ -75,4 +75,22 @@ const getAllCompanies = async (req,res)=>{
     
 };
 
-export { createCompany, getCompanyById , deleteCompany ,getAllCompanies};
+const updateCompany = async (req, res) => {
+    try {
+        const updatedCompany = await Companies.findByIdAndUpdate(
+            req.params.id,      
+            { $set: req.body },  
+            { new: true, runValidators: true }  
+        );
+
+        if (updatedCompany) {
+            res.status(200).send(updatedCompany);
+        } else {
+            res.status(404).send("No Data found");
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+export { createCompany, getCompanyById , deleteCompany ,getAllCompanies , updateCompany};

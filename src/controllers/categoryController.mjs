@@ -65,4 +65,23 @@ const getAllCategories = async (req,res)=>{
     
 };
 
-export { createCategory, getCategoryById , deleteCategory ,getAllCategories};
+const updateCategories = async (req, res) => {
+    try {
+        const updatedCategory = await Categories.findByIdAndUpdate(
+            req.params.id,      
+            { $set: req.body },  
+            { new: true, runValidators: true }  
+        );
+
+        if (updatedCategory) {
+            res.status(200).send(updatedCategory);
+        } else {
+            res.status(404).send("No Data found");
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+
+export { createCategory, getCategoryById , deleteCategory ,getAllCategories, updateCategories};

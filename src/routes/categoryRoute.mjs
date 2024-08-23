@@ -2,7 +2,7 @@ import e, { Router } from "express";
 
 import { Categories } from "../models/category.mjs";
 
-import { createCategory, getCategoryById , deleteCategory ,getAllCategories} from "../controllers/categoryController.mjs";
+import { createCategory, getCategoryById , deleteCategory ,getAllCategories , updateCategories} from "../controllers/categoryController.mjs";
 
 const router = Router();
 
@@ -15,9 +15,6 @@ router.get("/api/category",getAllCategories);
 
 router.delete("/api/category/:id", deleteCategory);
 
-router.put("/api/category/:id",async (req,res)=>{
-    const findcategory = await Categories.findById(req.params.id);
-    res.send(findcategory);
-});
+router.put("/api/category/:id",updateCategories);
 
 export default router;

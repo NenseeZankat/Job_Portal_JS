@@ -68,4 +68,23 @@ const getAllUsers = async (req,res)=>{
     
 };
 
-export { createUser, getUserById , deleteUser ,getAllUsers};
+
+const updateUser = async (req, res) => {
+    try {
+        const updatedUser = await Users.findByIdAndUpdate(
+            req.params.id,      
+            { $set: req.body },  
+            { new: true, runValidators: true }  
+        );
+
+        if (updatedUser) {
+            res.status(200).send(updatedUser);
+        } else {
+            res.status(404).send("No Data found");
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+export { createUser, getUserById , deleteUser ,getAllUsers , updateUser};

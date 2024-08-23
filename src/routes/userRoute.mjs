@@ -4,7 +4,7 @@ import { Users } from "../models/user.mjs";
 
 // const userController = require('../controllers/userController');
 
-import { createUser , getUserById , deleteUser , getAllUsers} from "../controllers/userController.mjs"
+import { createUser , getUserById , deleteUser , getAllUsers , updateUser} from "../controllers/userController.mjs"
 
 
 const router = Router();
@@ -18,5 +18,7 @@ router.get("/api/user/:id",getUserById);
 router.delete("/api/user/:id", deleteUser );
 
 router.get("/api/user", getAllUsers);
+
+router.put("/api/user/:id", updateUser);
 
 export default router;
