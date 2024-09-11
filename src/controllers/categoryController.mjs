@@ -83,5 +83,20 @@ const updateCategories = async (req, res) => {
     }
 };
 
+const getCategoryByName = async (req,res) => {
+    try
+    {
+        const findCategory = await Categories.find({name : req.params.name});
+        if(findCategory)
+            res.send(findCategory);
+        else
+            res.status(404).send("NO Data Found");
+    }
+    catch(err)
+    {
+        res.status(500).send(err.message);
+    }
+}
 
-export { createCategory, getCategoryById , deleteCategory ,getAllCategories, updateCategories};
+
+export { createCategory, getCategoryById , deleteCategory ,getAllCategories, updateCategories , getCategoryByName};

@@ -93,4 +93,49 @@ const updateCompany = async (req, res) => {
     }
 };
 
-export { createCompany, getCompanyById , deleteCompany ,getAllCompanies , updateCompany};
+const getCompanyByName = async (req,res) => {
+    try
+    {
+        const findCompany = await Companies.find({name : req.params.name});
+        if(findCompany)
+            res.send(findCompany);
+        else
+            res.status(404).send("NO Data Found");
+    }
+    catch(err)
+    {
+        res.status(500).send(err.message);
+    }
+}
+
+const getCompanyByIndustry = async (req,res) => {
+    try
+    {
+        const findCompany = await Companies.find({industry : req.params.industry});
+        if(findCompany)
+            res.send(findCompany);
+        else
+            res.status(404).send("NO Data Found");
+    }
+    catch(err)
+    {
+        res.status(500).send(err.message);
+    }
+}
+
+const getCompanyByWebsite = async (req,res) => {
+    try
+    {
+        const findCompany = await Companies.find({website : req.params.website});
+        if(findCompany)
+            res.send(findCompany);
+        else
+            res.status(404).send("NO Data Found");
+    }
+    catch(err)
+    {
+        res.status(500).send(err.message);
+    }
+}
+
+export { createCompany, getCompanyById , deleteCompany ,getAllCompanies , updateCompany , getCompanyByName , getCompanyByIndustry , getCompanyByWebsite};

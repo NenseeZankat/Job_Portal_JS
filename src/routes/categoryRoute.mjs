@@ -2,7 +2,7 @@ import e, { Router } from "express";
 
 import { Categories } from "../models/category.mjs";
 
-import { createCategory, getCategoryById , deleteCategory ,getAllCategories , updateCategories} from "../controllers/categoryController.mjs";
+import { createCategory, getCategoryById , deleteCategory ,getAllCategories , updateCategories , getCategoryByName} from "../controllers/categoryController.mjs";
 
 const router = Router();
 
@@ -10,6 +10,8 @@ const router = Router();
 router.post("/api/category",createCategory);
 
 router.get("/api/category/:id",getCategoryById);
+
+router.get("/api/category/name/:name",getCategoryByName);
 
 router.get("/api/category",getAllCategories);
 
