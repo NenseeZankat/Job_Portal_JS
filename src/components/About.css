@@ -1,0 +1,123 @@
+/* General styles for the About Us page */
+.about-page {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  
+  /* Hero section */
+  .hero-section {
+    background-color: #6c8ae4;
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+  }
+  
+  .hero-section h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+  
+  .hero-section p {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  
+  /* Mission section */
+  .mission-section, .history-section {
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: center;
+  }
+  
+  .mission-section h2, .history-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .mission-section p, .history-section p {
+    font-size: 18px;
+    color: #333;
+    padding: 0 20px;
+  }
+  
+  /* Values section */
+  .values-section {
+    background-color: #ffffff;
+    padding: 60px 20px;
+  }
+  
+  .values-section h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  .values-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .value-card {
+    background-color: #6c8ae4;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .value-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .value-card p {
+    font-size: 16px;
+  }
+  
+  /* Team section */
+  .team-section {
+    padding: 60px 20px;
+    background-color: #f0f4f8;
+  }
+  
+  .team-section h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+  
+  .team-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .team-member {
+    text-align: center;
+  }
+  
+  .team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
+  
+  .team-member h3 {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .team-member p {
+    font-size: 16px;
+    color: #666;
+  }
+  
