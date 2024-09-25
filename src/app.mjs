@@ -14,11 +14,15 @@ import applicationRouter from './routes/applicationRoute.mjs'
 
 import mongoose from 'mongoose';
 
+import cors from 'cors';
+
 mongoose.connect('mongodb://localhost/Job_Portal')
 .then(()=> console.log("hellooo hyyyy"))
 .catch((err)=>console.log(err));
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json()); 
 

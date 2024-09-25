@@ -43,6 +43,7 @@ const deleteJob = async (req, res) => {
     }
 };
 
+
 // Get All Jobs
 const getAllJobs = async (req, res) => {
     try {

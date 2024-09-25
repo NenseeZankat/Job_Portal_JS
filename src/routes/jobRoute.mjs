@@ -11,6 +11,31 @@ router.post("/api/job", createJob);
 // Get a Job by ID
 router.get("/api/job/:id", getJobById);
 
+// router.get('/api/jobs', async (req, res) => {
+//     try {
+//       const jobs = await Jobs.find()
+//         .populate('companyId') // Populating company details
+//         .populate('categoryId') // Populating category details if needed
+//         .populate('postedBy') // Optionally, populate user details who posted the job
+//         .exec();
+//       res.status(200).json(jobs);
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ message: 'Server error while fetching jobs' });
+//     }
+//   });
+
+// router.get('/jobs', async (req, res) => {
+//     try {
+//       // Fetch jobs without populating related fields
+//       const jobs = await Jobs.find().exec();
+//       res.status(200).json(jobs);
+//     } catch (error) {
+//       console.error('Error fetching jobs:', error);
+//       res.status(500).json({ message: 'Server error while fetching jobs' });
+//     }
+//   });
+
 // Delete a Job by ID
 router.delete("/api/job/:id", deleteJob);
 
