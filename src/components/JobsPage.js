@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './JobsPage.css';
+import { useNavigate } from 'react-router-dom'; 
 
 const JobsPage = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     // Fetch job data from the backend
@@ -51,7 +54,7 @@ const JobsPage = () => {
               <p><strong>Experience Required:</strong> {job.experienceRequired || 'N/A'} years</p>
               <p><strong>Skills Required:</strong> {job.skillsRequired.length > 0 ? job.skillsRequired.join(', ') : 'N/A'}</p>
               <p><strong>Description:</strong> {job.description || 'N/A'}</p>
-              <button className="apply-button">Apply Now</button>
+              <button className="apply-button" onClick={() => navigate(`/jobs/${job._id}/apply`)}>Apply Now</button> 
             </div>
           ))}
         </div>

@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './FeaturedJobs.css';
+import { useNavigate } from 'react-router-dom'; 
+
 
 const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
 
+  const navigate = useNavigate(); 
+  
   // Fetch jobs from backend
   useEffect(() => {
     const fetchJobs = async () => {
@@ -28,6 +32,7 @@ const FeaturedJobs = () => {
             <h3>{job.title}</h3>
             <p>{job.companyId.name}</p> {/* Display the company name */}
             <p>{job.address[0]?.city || 'Location not specified'}</p> {/* Display the first city in the address array */}
+            <button className="apply-button" onClick={() => navigate(`/jobs/${job._id}/apply`)}>Apply Now</button> 
           </div>
         ))}
       </div>
