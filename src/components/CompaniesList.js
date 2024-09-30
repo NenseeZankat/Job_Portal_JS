@@ -99,6 +99,10 @@ const CompaniesList = () => {
 
       {selectedCompany && (
         <div className="company-jobs">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
           <h3>Jobs at {selectedCompany.name}</h3>
           {jobs.length > 0 ? (
             <div className="job-list">
@@ -121,7 +125,7 @@ const CompaniesList = () => {
               ))}
             </div>
           ) : (
-            <p>No jobs available for this company.</p> // Handle case with no jobs
+            <h4>No jobs available for this company.</h4> // Handle case with no jobs
           )}
         </div>
       )}

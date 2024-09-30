@@ -48,7 +48,7 @@ const JobsPage = () => {
           {jobs.map((job) => (
             <div key={job._id} className="job-card">
               <h2>{job.title}</h2>
-              <p><strong>Company ID:</strong> {job.companyId}</p>
+              {/* <p><strong>Company ID:</strong> {job.companyId.name}</p> */}
               <p><strong>Location:</strong> {job.address[0]?.city || 'N/A'}, {job.address[0]?.state || 'N/A'}, {job.address[0]?.country || 'N/A'}</p>
               <p><strong>Salary:</strong> ${job.salary || 'N/A'}</p>
               <p><strong>Experience Required:</strong> {job.experienceRequired || 'N/A'} years</p>

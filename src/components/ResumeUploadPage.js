@@ -1,6 +1,7 @@
 // ResumeUploadPage.js
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import './ResumeUploadPage.css';
 
 const ResumeUploadPage = () => {
   const [resumeFile, setResumeFile] = useState(null);

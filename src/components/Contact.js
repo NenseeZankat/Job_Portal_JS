@@ -10,6 +10,7 @@ const Contact = () => {
 
   const [formErrors, setFormErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); // Track loading state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,18 +33,39 @@ const Contact = () => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
       // Form is valid
-      console.log('Form data:', formData);
-      setFormSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        message: '',
-      });
+      setLoading(true); // Start loading
+      try {
+        const response = await fetch('http://localhost:3000/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          // Form submission successful
+          console.log('Form data:', formData);
+          setFormSubmitted(true);
+          setFormData({
+            name: '',
+            email: '',
+            message: '',
+          });
+        } else {
+          throw new Error('Failed to submit contact form');
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setFormErrors({ submit: 'Failed to submit contact form' });
+      } finally {
+        setLoading(false); // Stop loading
+      }
     } else {
       setFormErrors(errors);
     }
@@ -53,6 +75,7 @@ const Contact = () => {
     <div className="contact">
       <h2>Contact Us</h2>
       {formSubmitted && <div className="form-success">Thank you for your message! We'll get back to you soon.</div>}
+      {formErrors.submit && <span className="error">{formErrors.submit}</span>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
@@ -92,7 +115,9 @@ const Contact = () => {
           {formErrors.message && <span className="error">{formErrors.message}</span>}
         </div>
 
-        <button type="submit" className="submit-btn">Submit</button>
+        <button type="submit" className="submit-btn" disabled={loading}>
+          {loading ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
     </div>
   );
