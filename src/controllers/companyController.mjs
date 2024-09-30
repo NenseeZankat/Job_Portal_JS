@@ -37,6 +37,22 @@ const getCompanyById = async (req,res)=>{
     
 };
 
+const getJobByCompany = async (req, res) => {
+    try {
+      const companyId = req.params.id;
+      const company = await Companies.findById(companyId).populate('jobsPosted'); // Populate jobsPosted
+  
+      if (!company) {
+        return res.status(404).json({ message: 'Company not found' });
+      }
+  
+      res.status(200).json(company);
+    } catch (error) {
+      console.error('Error fetching jobs for company:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
 const deleteCompany = async (req, res) => {
     try {
     
@@ -138,4 +154,4 @@ const getCompanyByWebsite = async (req,res) => {
     }
 }
 
-export { createCompany, getCompanyById , deleteCompany ,getAllCompanies , updateCompany , getCompanyByName , getCompanyByIndustry , getCompanyByWebsite};
+export { createCompany, getCompanyById , deleteCompany ,getAllCompanies , updateCompany , getCompanyByName , getCompanyByIndustry , getJobByCompany , getCompanyByWebsite};

@@ -17,6 +17,7 @@ const createApplication = async (req,res)=>{
 
 };
 
+
 const getApplicationById = async (req,res)=>{
     try
     {

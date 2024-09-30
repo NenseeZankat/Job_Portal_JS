@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { createUser, getUserById, deleteUser, getAllUsers, updateUser, softDeleteUser, restoreUser, 
-    getPaginatedUsers, searchUsers, countUsers, deleteMultipleUsers } from "../controllers/userController.mjs";
+    getPaginatedUsers, searchUsers, countUsers, deleteMultipleUsers ,getUserByEmail} from "../controllers/userController.mjs";
 
 const router = Router();
 
 // Create a User
 router.post("/api/user", createUser);
+
+router.post("/api/login", getUserByEmail);
 
 // Get a User by ID
 router.get("/api/user/:id", getUserById);
@@ -38,3 +40,5 @@ router.get("/api/users/count", countUsers);
 router.delete("/api/users", deleteMultipleUsers);
 
 export default router;
+ 
+

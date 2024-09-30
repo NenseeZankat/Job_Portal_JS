@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { createJob,  getJobById, deleteJob, getAllJobs, 
+import { createJob,  getJobById, deleteJob, getAllJobs, getJobsByCategory,
     updateJob,  searchJobs, getPaginatedJobs, softDeleteJob, 
-    restoreJob, countJobs, deleteMultipleJobs } from "../controllers/jobController.mjs";
+    restoreJob, countJobs, deleteMultipleJobs , applyForJob } from "../controllers/jobController.mjs";
 
 const router = Router();
 
@@ -10,6 +10,10 @@ router.post("/api/job", createJob);
 
 // Get a Job by ID
 router.get("/api/job/:id", getJobById);
+
+router.post('/api/jobs/:jobId/apply', applyForJob);
+
+router.get('/api/jobs/category/:categoryId', getJobsByCategory);
 
 // router.get('/api/jobs', async (req, res) => {
 //     try {

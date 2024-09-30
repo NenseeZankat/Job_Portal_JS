@@ -10,7 +10,9 @@ import companyRoutes from './routes/companyRoute.mjs';
 
 import jobRoutes from './routes/jobRoute.mjs';
 
-import applicationRouter from './routes/applicationRoute.mjs'
+import applicationRouter from './routes/applicationRoute.mjs';
+
+import contactRoute from './routes/contactRoute.mjs';
 
 import mongoose from 'mongoose';
 
@@ -37,6 +39,8 @@ app.use(companyRoutes);
 app.use(jobRoutes);
 
 app.use(applicationRouter);
+
+app.use(contactRoute);
 
 const PORT = process.env.PORT || 3000;
 

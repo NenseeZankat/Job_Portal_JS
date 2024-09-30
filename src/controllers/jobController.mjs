@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+import path from 'path';
+import fs from 'fs';
+import multer from 'multer';
+import { fileURLToPath } from 'url';
+import { Resume } from '../models/resume.mjs';
+
 import { Jobs } from "../models/job.mjs";
 
 import { Applications } from "../models/application.mjs";
@@ -14,6 +20,114 @@ const createJob = async (req, res) => {
         res.status(500).send(err.message);
     }
 };
+
+const getJobsByCategory = async (req, res, next) => {
+    try {
+      const { categoryId } = req.params;
+  
+      // Find jobs that match the given category
+      const jobs = await Jobs.find({ categoryId })
+        .populate('companyId categoryId postedBy')
+        .exec();
+  
+      if (!jobs || jobs.length === 0) {
+        return res.status(404).json({ message: 'No jobs found for this category.' });
+      }
+  
+      // Return jobs found
+      res.json(jobs);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Ensure the uploads directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir); 
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}-${file.fieldname}${ext}`);  
+  }
+});
+
+// Enhanced error handling for multer
+const upload = multer({ 
+  storage, 
+  limits: { fileSize: 2 * 1024 * 1024 }, 
+}).single('resume');
+
+// Middleware for file upload and application submission
+const applyForJob = [
+  (req, res, next) => {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        console.error('Multer Error:', err);
+        return res.status(500).json({ message: 'File upload error', error: err.message });
+      } else if (err) {
+        console.error('Unknown Upload Error:', err);
+        return res.status(500).json({ message: 'Unknown error during file upload', error: err.message });
+      }
+      next();
+    });
+  },
+  async (req, res) => {
+    const { jobId } = req.params;  
+    const { userId } = req.body;  
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(400).json({ message: 'Invalid job ID' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'Resume is required' });
+    }
+
+    try {
+      // Save resume to the Resume model
+      const resume = new Resume({
+        userId: new mongoose.Types.ObjectId(userId), 
+        resumeFile: req.file.path,  
+      });
+
+      await resume.save();
+
+      // Save application to Applications model
+      const application = new Applications({
+        userId: new mongoose.Types.ObjectId(userId),  
+        jobId: new mongoose.Types.ObjectId(jobId),    
+        resumeId: resume._id,  
+        status: 'applied',     
+      });
+
+      await application.save();
+
+      res.status(200).json({ message: 'Application submitted successfully' });
+    } catch (error) {
+      console.error('Error in application submission:', error);
+
+      if (error.name === 'ValidationError') {
+        return res.status(400).json({ message: 'Invalid data provided', error: error.message });
+      }
+
+      res.status(500).json({ message: 'Server error. Please try again later.' });
+    }
+  }
+];
 
 // Get a Job by ID
 const getJobById = async (req, res) => {
@@ -195,5 +309,5 @@ const deleteMultipleJobs = async (req, res) => {
     }
 };
 
-export { createJob, getJobById, deleteJob, getAllJobs, updateJob, searchJobs,
+export { createJob, getJobById, deleteJob, getAllJobs, updateJob, searchJobs, applyForJob, getJobsByCategory,
      getPaginatedJobs, softDeleteJob, restoreJob, countJobs, deleteMultipleJobs };
